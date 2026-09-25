@@ -3,1057 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Movie Master - Live & Favorites</title>
+    <title>Download Movie Master HD - Official APK</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
     <style>
-        :root { --primary: #e50914; --bg: #000; --card: #121212; --text: #fff; --plyr-color-main: #e50914; --border: #222; }
-        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 75px; overflow-x: hidden; }
+        :root {
+            --primary: #e50914;
+            --primary-glow: rgba(229, 9, 20, 0.4);
+            --bg: #0a0a0a;
+            --card: #141414;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --success: #2ecc71;
+            --border: #222222;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 40px; overflow-x: hidden; }
+
+        /* Header */
+        header { padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(10,10,10,0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+        .logo span { color: var(--primary); }
+        .badge-safe { font-size: 10px; color: var(--success); background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46,204,113,0.3); padding: 4px 10px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 35px 20px 20px; }
+        .app-icon { width: 90px; height: 90px; border-radius: 22px; background: linear-gradient(145deg, #e50914, #8b0000); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 8px 30px var(--primary-glow); border: 2px solid rgba(255,255,255,0.15); }
+        .app-icon span { font-size: 50px; font-weight: 900; color: #fff; }
         
-        /* ================= SPLASH SCREEN ================= */
-        #splashScreen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #050505;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            transition: opacity 0.6s ease, visibility 0.6s;
-        }
+        .app-title { font-size: 24px; font-weight: 900; margin-bottom: 4px; }
+        .app-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
 
-        #splashScreen.hide {
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-        }
+        /* Meta tags / Stats */
+        .meta-tags { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .meta-item { background: var(--card); border: 1px solid var(--border); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .meta-item i { color: #f1c40f; }
 
-        .splash-bg {
-            position: absolute;
-            top: -10%; left: -10%;
-            width: 120%; height: 120%;
-            background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-position: center;
-            filter: blur(6px) brightness(0.2);
-            animation: zoomBg 6s ease infinite alternate;
-        }
+        /* Main Download Button */
+        .download-box { padding: 0 20px; margin-bottom: 30px; }
+        .btn-download { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 380px; margin: 0 auto; background: linear-gradient(135deg, #e50914, #b8060f); color: #fff; text-decoration: none; padding: 16px 20px; border-radius: 14px; font-size: 16px; font-weight: 700; box-shadow: 0 10px 30px var(--primary-glow); transition: transform 0.2s ease; }
+        .btn-download:active { transform: scale(0.97); }
+        .btn-download i { font-size: 20px; }
+        .download-subtext { text-align: center; font-size: 11px; color: #777; margin-top: 8px; }
 
-        @keyframes zoomBg {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
+        /* Section Headings */
+        .section-title { font-size: 14px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; padding: 0 20px; margin-bottom: 12px; border-left: 3px solid var(--primary); margin-left: 20px; }
 
-        .splash-overlay {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, #000000 90%);
-        }
+        /* Features Grid */
+        .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px 30px; }
+        .feat-box { background: var(--card); border: 1px solid var(--border); padding: 14px; border-radius: 12px; text-align: left; }
+        .feat-box i { font-size: 20px; color: var(--primary); margin-bottom: 8px; display: block; }
+        .feat-box h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        .feat-box p { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
 
-        .splash-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: popIn 0.8s ease-out;
-        }
+        /* How to install */
+        .steps-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin: 0 20px 30px; padding: 18px; }
+        .step-item { display: flex; gap: 12px; margin-bottom: 14px; }
+        .step-item:last-child { margin-bottom: 0; }
+        .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+        .step-text h5 { font-size: 12px; font-weight: 600; }
+        .step-text p { font-size: 10px; color: var(--text-muted); }
 
-        @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        /* ADSTERRA 300x250 BANNER */
+        .adsterra-ad-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; text-align: center; background: #080808; border-radius: 10px; padding: 8px 0; border: 1px solid #1a1a1a; width: 100%; max-width: 320px; min-height: 260px; }
+        .ad-tag { font-size: 8px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
 
-        .splash-logo-box {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(145deg, #e50914, #8b0000);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 35px rgba(229, 9, 20, 0.65), 0 0 10px rgba(255,255,255,0.2) inset;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            margin-bottom: 18px;
-            animation: pulseGlow 2.5s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 25px rgba(229, 9, 20, 0.4); transform: scale(1); }
-            100% { box-shadow: 0 0 45px rgba(229, 9, 20, 0.85); transform: scale(1.04); }
-        }
-
-        .splash-logo-m {
-            font-size: 56px;
-            font-weight: 900;
-            color: #ffffff;
-            font-family: 'Poppins', sans-serif;
-            text-shadow: 2px 3px 10px rgba(0,0,0,0.5);
-            line-height: 1;
-        }
-
-        .splash-title {
-            font-size: 24px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 3px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .splash-title span {
-            color: var(--primary);
-        }
-
-        .splash-subtitle {
-            font-size: 11px;
-            color: #888;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            font-weight: 600;
-        }
-
-        .yt-spinner-box {
-            margin-top: 35px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .yt-spinner {
-            width: 38px;
-            height: 38px;
-            border: 3.5px solid rgba(255, 255, 255, 0.12);
-            border-top: 3.5px solid var(--primary);
-            border-radius: 50%;
-            animation: ytSpin 0.75s linear infinite;
-        }
-
-        @keyframes ytSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .yt-linear-bar {
-            width: 140px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .yt-linear-progress {
-            width: 0%;
-            height: 100%;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-            border-radius: 4px;
-            animation: loadBar 3.5s linear forwards;
-        }
-
-        @keyframes loadBar {
-            0% { width: 0%; }
-            50% { width: 60%; }
-            100% { width: 100%; }
-        }
-
-        .splash-footer {
-            position: absolute;
-            bottom: 25px;
-            z-index: 2;
-            font-size: 11px;
-            color: #666;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .splash-footer b {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        /* ================= LIVE NOTICE BAR ================= */
-        #liveNoticeBar {
-            display: none;
-            background: linear-gradient(90deg, #b8060f, #e50914);
-            color: #fff;
-            padding: 7px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(229,9,20,0.4);
-            position: sticky;
-            top: 60px;
-            z-index: 999;
-        }
-
-        /* ================= FLOATING WHATSAPP BUTTON ================= */
-        #whatsappFloatingBtn {
-            display: none;
-            position: fixed;
-            bottom: 82px;
-            right: 15px;
-            background: #25d366;
-            color: #fff;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 1600;
-            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.6);
-            text-decoration: none;
-            transition: transform 0.2s ease;
-        }
-        #whatsappFloatingBtn:active {
-            transform: scale(0.92);
-        }
-
-        /* ================= MAINTENANCE OVERLAY ================= */
-        #maintOverlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #080808;
-            z-index: 999999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 25px;
-        }
-
-        /* ================= APP CORE STYLING ================= */
-        header { padding: 0 15px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 1000; height: 60px; border-bottom: 1px solid var(--border); }
-        .logo { color: var(--primary); font-weight: 700; font-size: 20px; letter-spacing: 1px; }
-
-        /* SLIDER */
-        .slider-container { width: 100%; height: 210px; position: relative; overflow: hidden; background: #000; cursor: pointer; }
-        .slider-track { display: flex; transition: transform 0.6s ease; height: 100%; }
-        .slide { min-width: 100%; height: 100%; position: relative; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slider-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
-        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
-        .dot.active { background: var(--primary); width: 16px; border-radius: 10px; transition: 0.3s; }
-
-        /* BADA (300x250) ADSTERRA BANNER */
-        .adsterra-ad-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 15px auto;
-            text-align: center;
-            background: #0a0a0a;
-            border-radius: 8px;
-            padding: 8px 0;
-            border: 1px solid #1f1f1f;
-            width: 100%;
-            max-width: 320px;
-            position: relative;
-            min-height: 260px;
-        }
-        .adsterra-tag {
-            font-size: 9px;
-            color: #777;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        /* CHOTA (320x50) ADSTERRA BANNER */
-        .adsterra-320x50-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 8px auto;
-            text-align: center;
-            background: #080808;
-            border-radius: 6px;
-            padding: 3px 0 2px;
-            border: 1px solid #1a1a1a;
-            width: 100%;
-            max-width: 326px;
-            min-height: 65px;
-            overflow: hidden;
-        }
-
-        /* SECTIONS */
-        .section-header { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-top: 20px; }
-        .section-title { font-size: 14px; border-left: 3px solid var(--primary); padding-left: 10px; font-weight: 600; text-transform: uppercase; }
-        .view-all-btn { font-size: 11px; color: var(--primary); cursor: pointer; font-weight: 600; background: rgba(229, 9, 20, 0.1); padding: 4px 10px; border-radius: 4px; }
-        .movie-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 15px; scrollbar-width: none; }
-        
-        /* MOVIE CARDS */
-        .card-rect { min-width: 115px; width: 115px; border-radius: 8px; overflow: hidden; background: var(--card); border: 1px solid var(--border); cursor: pointer; position: relative; flex-shrink: 0; }
-        .card-rect.grid-item { min-width: unset; width: 100%; }
-        .card-rect img { width: 100%; height: 160px; object-fit: cover; display: block; }
-        .card-rect p { margin: 6px; font-size: 11px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; font-weight: 500; }
-        .fav-card-btn { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.75); border: 1px solid #333; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; cursor: pointer; z-index: 5; }
-        .fav-card-btn.active { color: var(--primary); border-color: var(--primary); background: rgba(229, 9, 20, 0.25); }
-
-        /* LIVE TV PAGE */
-        #livePage { display: none; flex-direction: column; height: calc(100vh - 70px); overflow: hidden; }
-        .video-fixed-top { position: relative; z-index: 1001; background: #000; width: 100%; aspect-ratio: 16/9; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-        .live-channel-bar { padding: 10px 15px; background: #0c0c0c; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .scrollable-content { flex: 1; overflow-y: auto; padding-bottom: 30px; -webkit-overflow-scrolling: touch; }
-
-        /* ROTATING CIRCULAR CHANNELS */
-        @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .live-grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 10px; padding: 15px; }
-        .channel-box { position: relative; display: flex; flex-direction: column; align-items: center; }
-        .live-item { position: relative; width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; cursor: pointer; }
-        .live-item::before { content: ""; position: absolute; width: 150%; height: 150%; background: conic-gradient(#ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000); animation: rotateBorder 3s linear infinite; }
-        .live-item img { width: 90%; height: 90%; object-fit: cover; border-radius: 50%; z-index: 1; background: #000; }
-        .channel-title-text { font-size: 11px; margin-top: 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; color: #eee; font-weight: 500; }
-        
-        .fav-channel-btn { position: absolute; top: -2px; right: 2px; background: rgba(0,0,0,0.85); border: 1px solid #444; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 10px; cursor: pointer; z-index: 10; }
-        .fav-channel-btn.active { color: var(--primary); border-color: var(--primary); background: rgba(229, 9, 20, 0.25); }
-
-        /* FULL PAGES */
-        .full-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; overflow-y: auto; padding-bottom: 80px; }
-        .page-header { padding: 15px; display: flex; align-items: center; gap: 15px; background: #000; border-bottom: 1px solid #222; height: 60px; position: sticky; top: 0; z-index: 2100; }
-        .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
-
-        /* MOVIE DETAILS */
-        .movie-details-box { padding: 18px 15px; background: #0c0c0c; border-bottom: 1px solid #1f1f1f; }
-        .movie-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-        .movie-details-box h2 { font-size: 18px; margin: 0 0 6px 0; color: #fff; font-weight: 600; line-height: 1.3; }
-        .meta-tag { display: inline-block; background: rgba(229, 9, 20, 0.15); color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; margin-bottom: 12px; }
-        .desc-text { font-size: 13px; color: #bbb; line-height: 1.6; margin: 10px 0 0 0; background: #141414; padding: 12px; border-radius: 8px; border: 1px solid #222; }
-        .btn-fav-detail { background: #222; border: 1px solid #333; color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .btn-fav-detail.active { background: var(--primary); border-color: var(--primary); }
-
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 1500; height: 70px; }
-        .nav-item { text-align: center; color: #666; font-size: 10px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
+        /* Footer */
+        footer { text-align: center; font-size: 11px; color: #555; padding-top: 15px; border-top: 1px solid var(--border); margin: 0 20px; }
     </style>
 </head>
 <body>
 
-    <!-- ================= MAINTENANCE OVERLAY ================= -->
-    <div id="maintOverlay">
-        <i class="fa fa-tools" style="font-size:50px; color:var(--primary); margin-bottom:20px;"></i>
-        <h2 style="margin:0 0 10px; color:#fff;">App Under Maintenance</h2>
-        <p style="color:#aaa; font-size:13px; max-width:280px; line-height:1.6;">Hum app ko behtar bana rahe hain. Jald hi live streaming aur movies wapas aayengi!</p>
-    </div>
-
-    <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
-    <a id="whatsappFloatingBtn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <!-- ================= SPLASH SCREEN ================= -->
-    <div id="splashScreen">
-        <div class="splash-bg"></div>
-        <div class="splash-overlay"></div>
-        
-        <div class="splash-content">
-            <div class="splash-logo-box">
-                <span class="splash-logo-m">M</span>
-            </div>
-            <h1 class="splash-title">MOVIE <span>MASTER</span></h1>
-            <p class="splash-subtitle">Live TV & Movies</p>
-            
-            <div class="yt-spinner-box">
-                <div class="yt-spinner"></div>
-                <div class="yt-linear-bar">
-                    <div class="yt-linear-progress"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="splash-footer">
-            Powered by <b>Hamza</b>
-        </div>
-    </div>
-
-    <!-- AUTO SPLASH SCREEN CLOSER (3.5 Seconds) -->
-    <script>
-        (function() {
-            function hideSplashNow() {
-                var s = document.getElementById('splashScreen');
-                if (s && s.style.display !== 'none') {
-                    s.classList.add('hide');
-                    setTimeout(function() { s.style.display = 'none'; }, 600);
-                }
-            }
-            setTimeout(hideSplashNow, 3500);
-            window.addEventListener('DOMContentLoaded', function() {
-                setTimeout(hideSplashNow, 3000);
-            });
-        })();
-    </script>
-
-    <!-- MAIN APP HEADER -->
+    <!-- Header -->
     <header>
-        <div class="logo">MOVIE MASTER</div>
-        <div onclick="window.showNav('favPage')" style="cursor:pointer; color:var(--primary); font-size:18px;">
-            <i class="fa fa-heart"></i>
-        </div>
+        <div class="logo">MOVIE <span>MASTER</span></div>
+        <div class="badge-safe"><i class="fa fa-shield-alt"></i> 100% Safe APK</div>
     </header>
 
-    <!-- LIVE NOTICE BAR -->
-    <div id="liveNoticeBar"></div>
-
-    <!-- 1. HOME PAGE -->
-    <div id="homePage" class="page">
-        <div class="slider-container" id="sliderClickArea">
-            <div class="slider-track" id="sliderTrack"></div>
-            <div class="slider-dots" id="sliderDots"></div>
+    <!-- Hero -->
+    <div class="hero">
+        <div class="app-icon">
+            <span>M</span>
         </div>
+        <h1 class="app-title">Movie Master HD</h1>
+        <p class="app-subtitle">Watch All Live TV Channels, Movies & Dramas in Full HD</p>
 
-        <!-- HOME TOP BADA 300x250 BANNER -->
-        <div class="adsterra-ad-box">
-            <span class="adsterra-tag">Advertisement</span>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
-        </div>
-
-        <div id="homeSections"><p style="text-align:center;padding:30px;color:#888;">Loading movies...</p></div>
-    </div>
-
-    <!-- 2. LIVE TV PAGE (CHOTA 320x50 BANNER) -->
-    <div id="livePage" class="page">
-        <div class="video-fixed-top" id="livePlayerWrapper">
-            <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#555; font-size:13px;">Select a channel from list below</div>
-        </div>
-        
-        <div id="liveChannelInfo" class="live-channel-bar" style="display:none;">
-            <div>
-                <span id="playingChannelTitle" style="font-weight:600; font-size:14px; color:#fff;">Live Channel</span>
-                <div style="color:var(--primary); font-size:10px; font-weight:600; margin-top:2px;"><i class="fa fa-circle" style="font-size:8px;"></i> LIVE BROADCAST</div>
-            </div>
-            <button id="livePlayerFavBtn" class="btn-fav-detail" style="padding:6px 12px; font-size:11px;">
-                <i class="fa fa-heart"></i> Favorite
-            </button>
-        </div>
-
-        <!-- CHOTA 320x50 BANNER -->
-        <div class="adsterra-320x50-box">
-            <span class="adsterra-tag">Sponsored</span>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : '1b2b85c3bc9de39e1cdc2aa3d57ac9d7',
-                    'format' : 'iframe',
-                    'height' : 50,
-                    'width' : 320,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="https://www.highrevenueformat.com/1b2b85c3bc9de39e1cdc2aa3d57ac9d7/invoke.js"></script>
-        </div>
-
-        <div class="scrollable-content" id="liveScrollContainer">
-            <div class="section-header"><div class="section-title">All Live Channels</div></div>
-            <div class="live-grid-container" id="liveChannelGrid"></div>
+        <div class="meta-tags">
+            <div class="meta-item"><i class="fa fa-star"></i> 4.8 / 5.0</div>
+            <div class="meta-item"><i class="fa fa-download" style="color:var(--primary);"></i> 33.56 MB</div>
+            <div class="meta-item"><i class="fa fa-android" style="color:var(--success);"></i> Android 5.0+</div>
+            <div class="meta-item"><i class="fa fa-bolt" style="color:#3498db;"></i> Fast Server</div>
         </div>
     </div>
 
-    <!-- 3. SEARCH PAGE -->
-    <div id="searchPage" class="full-page">
-        <div class="page-header">
-            <i class="fa fa-arrow-left" onclick="window.backToHome()" style="cursor:pointer; font-size:18px;"></i>
-            <input type="text" id="searchInput" placeholder="Search movies or channels..." style="flex:1; background:#111; border:1px solid #333; color:white; padding:10px 14px; border-radius:8px; font-size:13px;" oninput="window.doSearch(this.value)">
-        </div>
-        <div style="padding: 15px;">
-            <div class="adsterra-ad-box" style="margin: 0 auto 15px;">
-                <span class="adsterra-tag">Advertisement</span>
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
-            </div>
-
-            <div id="searchChannelsTitle" class="section-title" style="display:none; margin-bottom:10px;">Channels</div>
-            <div class="live-grid-container" id="searchChannelGrid" style="padding:0 0 20px 0;"></div>
-            
-            <div id="searchMoviesTitle" class="section-title" style="display:none; margin-bottom:10px;">Movies</div>
-            <div class="movie-grid" id="searchMovieGrid" style="padding:0;"></div>
-            
-            <p id="searchEmptyMsg" style="text-align:center; padding:20px; color:#666; font-size:13px;">Search movies and live channels...</p>
-        </div>
+    <!-- Main Download Button (CONNECTED TO MEDIAFIRE) -->
+    <div class="download-box">
+        <a href="https://www.mediafire.com/file/4gw1ckq14s59cl7/Movie_Master_HD.apk/file" class="btn-download" target="_blank">
+            <i class="fa fa-download"></i>
+            <span>Download APK (33.5 MB)</span>
+        </a>
+        <p class="download-subtext">Direct High-Speed MediaFire Download • No Password</p>
     </div>
 
-    <!-- 4. FAVORITES PAGE -->
-    <div id="favPage" class="full-page">
-        <div class="page-header">
-            <i class="fa fa-arrow-left" onclick="window.backToHome()" style="cursor:pointer; font-size:18px;"></i> 
-            <span style="font-weight:600;"><i class="fa fa-heart" style="color:var(--primary); margin-right:6px;"></i> My Favorites</span>
-        </div>
-        <div style="padding: 15px 15px 0;">
-            <div class="adsterra-ad-box" style="margin: 0 auto 15px;">
-                <span class="adsterra-tag">Sponsored</span>
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
-            </div>
-
-            <div class="section-title">Favorite Channels</div>
-            <div class="live-grid-container" id="favChannelGrid" style="padding: 15px 0 25px;"></div>
-            
-            <div class="section-title">Favorite Movies</div>
-            <div class="movie-grid" id="favMovieGrid" style="padding: 15px 0;"></div>
-        </div>
-    </div>
-
-    <!-- 5. VIEW ALL PAGE -->
-    <div id="viewAllPage" class="full-page">
-        <div class="page-header">
-            <i class="fa fa-arrow-left" onclick="window.backToHome()" style="cursor:pointer; font-size:18px;"></i> 
-            <span id="viewAllTitle" style="font-weight:600;">Category</span>
-        </div>
-        <div class="adsterra-ad-box" style="margin: 10px auto;">
-            <span class="adsterra-tag">Advertisement</span>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
-        </div>
-        <div class="movie-grid" id="viewAllGrid"></div>
-    </div>
-
-    <!-- 6. MOVIE PLAYER PAGE -->
-    <div id="videoPage" class="full-page" style="z-index:3000;">
-        <div class="page-header">
-            <i class="fa fa-arrow-left" onclick="window.closePlayer()" style="cursor:pointer; font-size:18px;"></i> 
-            <span id="playingTitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80%; font-size:14px;">Playing</span>
-        </div>
-        <div id="moviePlayerWrapper" style="width:100%; aspect-ratio:16/9; background:#000;"></div>
-        <div id="movieDetailsArea" class="movie-details-box"></div>
-
-        <div class="adsterra-ad-box" style="margin: 15px auto;">
-            <span class="adsterra-tag">Advertisement</span>
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="window.showNav('homePage', this)"><i class="fa fa-home"></i>Home</div>
-        <div class="nav-item" onclick="window.showNav('livePage', this)"><i class="fa fa-tv"></i>Live TV</div>
-        <div class="nav-item" onclick="window.showNav('searchPage', this)"><i class="fa fa-search"></i>Search</div>
-        <div class="nav-item" onclick="window.showNav('favPage', this)"><i class="fa fa-heart"></i>Favorites</div>
-    </div>
-
-    <!-- JAVASCRIPT SYSTEM -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-
-        // ================= ANDROID HARDWARE BACK BUTTON FIX =================
-        window.history.replaceState({ page: 'homePage' }, '');
-
-        window.addEventListener('popstate', (e) => {
-            const videoPage = document.getElementById('videoPage');
-            if (videoPage && videoPage.style.display === 'block') {
-                window.closePlayer(false);
-                return;
-            }
-
-            const fullPages = ['searchPage', 'favPage', 'viewAllPage'];
-            let anyClosed = false;
-            fullPages.forEach(pid => {
-                const el = document.getElementById(pid);
-                if (el && el.style.display === 'block') {
-                    el.style.display = 'none';
-                    anyClosed = true;
-                }
-            });
-
-            const livePage = document.getElementById('livePage');
-            if (anyClosed || (livePage && livePage.style.display === 'flex')) {
-                window.showNav('homePage', null, false);
-            }
-        });
-
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDhdCiM-RmSboLe7KW3rjzdshO5SAA4sBI",
-            authDomain: "movies-master-59452.firebaseapp.com",
-            databaseURL: "https://movies-master-59452-default-rtdb.firebaseio.com",
-            projectId: "movies-master-59452",
-            storageBucket: "movies-master-59452.firebasestorage.app",
-            messagingSenderId: "814163494909",
-            appId: "1:814163494909:web:49a5ddce403bd06f453b94",
-            measurementId: "G-9XNC9SLSDL"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        isSupported().then(supported => { if (supported) getAnalytics(app); });
-
-        // Global State
-        window.allMovies = [];
-        window.allChannels = [];
-        let sliders = [];
-        let categories = [];
-        window.globalLimit = 10;
-        let livePlayer = null, moviePlayer = null;
-        let currentHlsLive = null, currentHlsMovie = null;
-        let currentPlayingChannel = null;
-        let searchDebounceTimer = null;
-        let activeSliderIndex = 0;
-
-        // Favorites Storage
-        let favorites = JSON.parse(localStorage.getItem('user_favorites')) || { movies: [], channels: [] };
-
-        window.isFav = (type, id) => {
-            return favorites[type] && favorites[type].includes(String(id));
-        };
-
-        window.toggleFav = (type, id, event) => {
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            id = String(id);
-            if (!favorites[type]) favorites[type] = [];
-
-            const index = favorites[type].indexOf(id);
-            if (index > -1) {
-                favorites[type].splice(index, 1);
-            } else {
-                favorites[type].push(id);
-            }
-
-            localStorage.setItem('user_favorites', JSON.stringify(favorites));
-            
-            renderHome();
-            initLiveChannels();
-            renderFavoritesPage();
-
-            const searchInput = document.getElementById('searchInput');
-            if(searchInput && searchInput.value.trim()) {
-                window.doSearch(searchInput.value);
-            }
-            
-            const playerFavBtn = document.getElementById(`playerFavBtn_${id}`);
-            if (playerFavBtn) {
-                const active = window.isFav('movies', id);
-                playerFavBtn.className = `btn-fav-detail ${active ? 'active' : ''}`;
-                playerFavBtn.innerHTML = `<i class="fa fa-heart"></i> ${active ? 'Favorited' : 'Add to Favorites'}`;
-            }
-
-            if (currentPlayingChannel && String(currentPlayingChannel.id) === id) {
-                const isChannelFav = window.isFav('channels', id);
-                const liveBtn = document.getElementById('livePlayerFavBtn');
-                if (liveBtn) {
-                    liveBtn.className = `btn-fav-detail ${isChannelFav ? 'active' : ''}`;
-                    liveBtn.innerHTML = `<i class="fa fa-heart"></i> ${isChannelFav ? 'Favorited' : 'Favorite'}`;
-                }
-            }
-        };
-
-        // Firebase Realtime Listener (SYNC WITH ADMIN FEATURES)
-        const rootDbRef = ref(db, '/');
-        onValue(rootDbRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                window.allMovies = data.movies ? (Array.isArray(data.movies) ? data.movies : Object.values(data.movies)) : [];
-                window.allChannels = data.channels ? (Array.isArray(data.channels) ? data.channels : Object.values(data.channels)) : [];
-                sliders = data.sliders ? (Array.isArray(data.sliders) ? data.sliders : Object.values(data.sliders)) : [];
-                
-                // Sort categories based on Admin Panel Order
-                const rawCats = data.categories ? (Array.isArray(data.categories) ? data.categories : Object.values(data.categories)) : [];
-                categories = rawCats.sort((a, b) => (a.order !== undefined ? a.order : 999) - (b.order !== undefined ? b.order : 999));
-
-                window.globalLimit = parseInt(data.settings?.limit || 10);
-
-                // 1. Live Notice Bar
-                const noticeBar = document.getElementById('liveNoticeBar');
-                if (noticeBar) {
-                    if (data.settings?.notice && data.settings.notice.trim() !== '') {
-                        noticeBar.innerText = data.settings.notice;
-                        noticeBar.style.display = 'block';
-                    } else {
-                        noticeBar.style.display = 'none';
-                    }
-                }
-
-                // 2. Maintenance Overlay
-                const maintOverlay = document.getElementById('maintOverlay');
-                if (maintOverlay) {
-                    maintOverlay.style.display = data.settings?.maintenance ? 'flex' : 'none';
-                }
-
-                // 3. Floating WhatsApp Support Button
-                const waBtn = document.getElementById('whatsappFloatingBtn');
-                if (waBtn) {
-                    const waNum = data.settings?.features?.whatsapp;
-                    if (waNum && String(waNum).trim() !== '') {
-                        let cleanNum = String(waNum).trim().replace(/[^0-9]/g, '');
-                        if (cleanNum.startsWith('0')) cleanNum = '92' + cleanNum.substring(1);
-                        waBtn.href = `https://wa.me/${cleanNum}?text=Hello%20Movie%20Master%20Support`;
-                        waBtn.style.display = 'flex';
-                    } else {
-                        waBtn.style.display = 'none';
-                    }
-                }
-            }
-            renderHome();
-            initSlider();
-            initLiveChannels();
-            renderFavoritesPage();
-        });
-
-        // HTML Item Renderers
-        window.renderMovieCard = (m, isGrid = false) => {
-            const fav = window.isFav('movies', m.id);
-            return `
-                <div class="card-rect ${isGrid ? 'grid-item' : ''}" onclick="window.playMovie('${m.id}')">
-                    <button class="fav-card-btn ${fav ? 'active' : ''}" onclick="window.toggleFav('movies', '${m.id}', event)">
-                        <i class="fa fa-heart"></i>
-                    </button>
-                    <img src="${m.thumb}" alt="${m.title || m.name}">
-                    <p>${m.title || m.name}</p>
-                </div>`;
-        };
-
-        window.renderChannelItem = (c) => {
-            const fav = window.isFav('channels', c.id);
-            return `
-                <div class="channel-box">
-                    <button class="fav-channel-btn ${fav ? 'active' : ''}" onclick="window.toggleFav('channels', '${c.id}', event)">
-                        <i class="fa fa-heart"></i>
-                    </button>
-                    <div class="live-item" onclick="window.playLive('${c.url}', '${(c.title || c.name || 'Live Channel').replace(/'/g, "\\'")}', '${c.id}')">
-                        <img src="${c.thumb}" alt="${c.title || c.name}">
-                    </div>
-                    <div class="channel-title-text">${c.title || c.name}</div>
-                </div>`;
-        };
-
-        // Render Home
-        function renderHome() {
-            let html = '';
-            if (categories.length === 0 && window.allMovies.length > 0) {
-                html = `
-                    <div class="section-header"><div class="section-title">All Movies (${window.allMovies.length})</div></div>
-                    <div class="movie-scroll">
-                        ${window.allMovies.map(m => window.renderMovieCard(m)).join('')}
-                    </div>`;
-            } else {
-                categories.forEach(cat => {
-                    const filtered = window.allMovies.filter(m => m.category === cat.name);
-                    if (filtered.length > 0) {
-                        const currentCategoryLimit = parseInt(cat.limit) || window.globalLimit;
-                        const limitedMovies = filtered.slice(0, currentCategoryLimit);
-                        html += `
-                            <div class="section-header">
-                                <div class="section-title"><i class="fa ${cat.icon || 'fa-film'}" style="color:var(--primary); margin-right:5px;"></i> ${cat.name} (${limitedMovies.length})</div>
-                                <div class="view-all-btn" onclick="window.openViewAll('${cat.name}')">View All</div>
-                            </div>
-                            <div class="movie-scroll">
-                                ${limitedMovies.map(m => window.renderMovieCard(m)).join('')}
-                            </div>`;
-                    }
-                });
-            }
-            document.getElementById('homeSections').innerHTML = html || '<p style="text-align:center;color:#666;padding:20px;">No movies available.</p>';
-        }
-
-        function initLiveChannels() {
-            document.getElementById('liveChannelGrid').innerHTML = window.allChannels.map(c => window.renderChannelItem(c)).join('');
-        }
-
-        function renderFavoritesPage() {
-            const favChannels = window.allChannels.filter(c => window.isFav('channels', c.id));
-            const favMovies = window.allMovies.filter(m => window.isFav('movies', m.id));
-
-            const chanGrid = document.getElementById('favChannelGrid');
-            const movGrid = document.getElementById('favMovieGrid');
-
-            if (chanGrid) {
-                chanGrid.innerHTML = favChannels.length ? favChannels.map(c => window.renderChannelItem(c)).join('') : '<p style="grid-column:span 4; color:#666; font-size:12px; margin:0;">No favorite channels added.</p>';
-            }
-
-            if (movGrid) {
-                movGrid.innerHTML = favMovies.length ? favMovies.map(m => window.renderMovieCard(m, true)).join('') : '<p style="grid-column:span 3; color:#666; font-size:12px; margin:0;">No favorite movies added.</p>';
-            }
-        }
-
-        function cleanupPlayer(isLive) {
-            if (isLive) {
-                if (currentHlsLive) { try { currentHlsLive.destroy(); } catch(e){} currentHlsLive = null; }
-                if (livePlayer) { try { livePlayer.destroy(); } catch(e){} livePlayer = null; }
-            } else {
-                if (currentHlsMovie) { try { currentHlsMovie.destroy(); } catch(e){} currentHlsMovie = null; }
-                if (moviePlayer) { try { moviePlayer.destroy(); } catch(e){} moviePlayer = null; }
-            }
-        }
-
-        function startPlayer(wrapperId, url, isLive) {
-            cleanupPlayer(isLive);
-            const container = document.getElementById(wrapperId);
-            container.innerHTML = `<video id="${isLive?'l':'m'}Vid" playsinline controls autoplay style="width:100%; height:100%;"></video>`;
-            const video = document.getElementById(`${isLive?'l':'m'}Vid`);
-            
-            const cfg = { 
-                autoplay: true,
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-                settings: ['quality', 'speed'],
-                speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] }
+    <!-- ADSTERRA LIVE AD BANNER (EARN DOLLARS) -->
+    <div class="adsterra-ad-box">
+        <span class="ad-tag">Advertisement</span>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'c037c9c58dda156ba89c87f9b2034aeb',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
             };
+        </script>
+        <script type="text/javascript" src="https://www.highrevenueformat.com/c037c9c58dda156ba89c87f9b2034aeb/invoke.js"></script>
+    </div>
 
-            if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                const p = new Plyr(video, cfg);
-                p.source = { type: 'video', sources: [{ src: url, provider: 'youtube' }] };
-                if(isLive) livePlayer = p; else moviePlayer = p;
-            } else if (url.includes('.m3u8') && Hls.isSupported()) {
-                const hls = new Hls();
-                if(isLive) currentHlsLive = hls; else currentHlsMovie = hls;
-                hls.loadSource(url); 
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    const qualities = hls.levels.map((l) => l.height);
-                    cfg.quality = {
-                        default: qualities[0], options: qualities, forced: true,
-                        onChange: (e) => { hls.levels.forEach((l, i) => { if (l.height === e) hls.currentLevel = i; }); }
-                    };
-                    const p = new Plyr(video, cfg); 
-                    p.play(); 
-                    if(isLive) livePlayer = p; else moviePlayer = p;
-                });
-            } else {
-                video.src = url; 
-                const p = new Plyr(video, cfg); 
-                p.play(); 
-                if(isLive) livePlayer = p; else moviePlayer = p;
-            }
-        }
+    <!-- App Features -->
+    <h3 class="section-title">Key Features</h3>
+    <div class="features-grid">
+        <div class="feat-box">
+            <i class="fa fa-tv"></i>
+            <h4>Live TV Channels</h4>
+            <p>Geo, ARY, Sports, News & Madani Channel live 24/7 without buffer.</p>
+        </div>
+        <div class="feat-box">
+            <i class="fa fa-film"></i>
+            <h4>All HD Movies</h4>
+            <p>Trending Bollywood, Hollywood & Urdu movies updated daily.</p>
+        </div>
+        <div class="feat-box">
+            <i class="fa fa-tachometer-alt"></i>
+            <h4>Zero Buffering</h4>
+            <p>Ultra-fast HLS streaming servers for smooth playback on 3G/4G.</p>
+        </div>
+        <div class="feat-box">
+            <i class="fa fa-mobile-alt"></i>
+            <h4>Full-Screen Rotate</h4>
+            <p>Smart auto-rotate landscape player for an immersive cinema experience.</p>
+        </div>
+    </div>
 
-        // DIRECT LIVE PLAY
-        window.playLive = (url, title, id) => {
-            window.showNav('livePage');
-            window.history.pushState({ page: 'livePlayer' }, '');
+    <!-- How to Install -->
+    <h3 class="section-title">How To Install?</h3>
+    <div class="steps-box">
+        <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+                <h5>Download APK</h5>
+                <p>Click the big red Download button above to get the APK file.</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+                <h5>Allow Unknown Sources</h5>
+                <p>If prompted by mobile settings, allow installation from this source.</p>
+            </div>
+        </div>
+        <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+                <h5>Open & Enjoy</h5>
+                <p>Launch Movie Master and start streaming all live channels & movies!</p>
+            </div>
+        </div>
+    </div>
 
-            currentPlayingChannel = { id, title, url };
-            const bar = document.getElementById('liveChannelInfo');
-            if (bar) {
-                bar.style.display = 'flex';
-                document.getElementById('playingChannelTitle').innerText = title;
-                const isFavChannel = window.isFav('channels', id);
-                const btn = document.getElementById('livePlayerFavBtn');
-                btn.className = `btn-fav-detail ${isFavChannel ? 'active' : ''}`;
-                btn.innerHTML = `<i class="fa fa-heart"></i> ${isFavChannel ? 'Favorited' : 'Favorite'}`;
-                btn.onclick = (e) => window.toggleFav('channels', id, e);
-            }
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Movie Master HD • All Rights Reserved</p>
+    </footer>
 
-            startPlayer('livePlayerWrapper', url, true);
-
-            const scrollBox = document.getElementById('liveScrollContainer');
-            if(scrollBox) scrollBox.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-        
-        // DIRECT MOVIE PLAY
-        window.playMovie = (id) => {
-            const m = window.allMovies.find(x => String(x.id) === String(id));
-            if(!m) return;
-            
-            document.getElementById('videoPage').style.display = 'block';
-            document.getElementById('playingTitle').innerText = m.title || m.name;
-            window.history.pushState({ page: 'moviePlayer' }, '');
-            
-            const isFavorite = window.isFav('movies', m.id);
-            document.getElementById('movieDetailsArea').innerHTML = `
-                <div class="movie-header-row">
-                    <div>
-                        <h2>${m.title || m.name}</h2>
-                        <span class="meta-tag"><i class="fa fa-film"></i> ${m.category || 'Movie'}</span>
-                    </div>
-                    <button id="playerFavBtn_${m.id}" class="btn-fav-detail ${isFavorite ? 'active' : ''}" onclick="window.toggleFav('movies', '${m.id}', event)">
-                        <i class="fa fa-heart"></i> ${isFavorite ? 'Favorited' : 'Add to Favorites'}
-                    </button>
-                </div>
-                <div class="desc-text">
-                    <b style="color:#fff; display:block; margin-bottom:4px;"><i class="fa fa-align-left" style="color:var(--primary); margin-right:5px;"></i> Overview / Description:</b>
-                    ${m.desc ? m.desc : 'No detailed description available for this movie.'}
-                </div>
-            `;
-
-            startPlayer('moviePlayerWrapper', m.url, false);
-        };
-
-        window.doSearch = (query) => {
-            clearTimeout(searchDebounceTimer);
-            searchDebounceTimer = setTimeout(() => {
-                const q = (query || "").toLowerCase().trim();
-                const chanGrid = document.getElementById('searchChannelGrid');
-                const movGrid = document.getElementById('searchMovieGrid');
-                const chanTitle = document.getElementById('searchChannelsTitle');
-                const movTitle = document.getElementById('searchMoviesTitle');
-                const emptyMsg = document.getElementById('searchEmptyMsg');
-
-                if(!q) {
-                    chanGrid.innerHTML = "";
-                    movGrid.innerHTML = "";
-                    chanTitle.style.display = 'none';
-                    movTitle.style.display = 'none';
-                    emptyMsg.style.display = 'block';
-                    emptyMsg.innerText = 'Search movies and live channels...';
-                    return;
-                }
-
-                const matchedChannels = window.allChannels.filter(c => (c.name || c.title || "").toLowerCase().includes(q));
-                const matchedMovies = window.allMovies.filter(m => (m.title || m.name || "").toLowerCase().includes(q));
-
-                if(matchedChannels.length > 0) {
-                    chanTitle.style.display = 'block';
-                    chanGrid.innerHTML = matchedChannels.map(c => window.renderChannelItem(c)).join('');
-                } else {
-                    chanTitle.style.display = 'none';
-                    chanGrid.innerHTML = '';
-                }
-
-                if(matchedMovies.length > 0) {
-                    movTitle.style.display = 'block';
-                    movGrid.innerHTML = matchedMovies.map(m => window.renderMovieCard(m, true)).join('');
-                } else {
-                    movTitle.style.display = 'none';
-                    movGrid.innerHTML = '';
-                }
-
-                if(matchedChannels.length === 0 && matchedMovies.length === 0) {
-                    emptyMsg.style.display = 'block';
-                    emptyMsg.innerText = 'No matching movies or channels found.';
-                } else {
-                    emptyMsg.style.display = 'none';
-                }
-            }, 200);
-        };
-
-        // Slider with Video & Link Support
-        function initSlider() {
-            const track = document.getElementById('sliderTrack'), dots = document.getElementById('sliderDots');
-            const sliderArea = document.getElementById('sliderClickArea');
-            if(!sliders.length) return;
-
-            track.innerHTML = sliders.map(s => `<div class="slide"><img src="${s.img}"></div>`).join('');
-            dots.innerHTML = sliders.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
-            
-            if(sliderArea) {
-                sliderArea.onclick = () => {
-                    const currentSlide = sliders[activeSliderIndex];
-                    if(currentSlide && currentSlide.url) {
-                        const u = currentSlide.url;
-                        if(u.includes('.mp4') || u.includes('.m3u8') || u.includes('youtube') || u.includes('catbox.moe')) {
-                            document.getElementById('videoPage').style.display = 'block';
-                            document.getElementById('playingTitle').innerText = 'Featured Video';
-                            window.history.pushState({ page: 'moviePlayer' }, '');
-                            startPlayer('moviePlayerWrapper', u, false);
-                        } else {
-                            window.open(u, '_blank');
-                        }
-                    }
-                };
-            }
-
-            activeSliderIndex = 0; 
-            if(window.si) clearInterval(window.si);
-            window.si = setInterval(() => {
-                activeSliderIndex = (activeSliderIndex + 1) % sliders.length;
-                track.style.transform = `translateX(-${activeSliderIndex * 100}%)`;
-                document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === activeSliderIndex));
-            }, 4000);
-        }
-
-        window.showNav = (id, el, pushState = true) => {
-            document.querySelectorAll('.page, .full-page').forEach(p => p.style.display = 'none');
-            document.getElementById(id).style.display = id === 'livePage' ? 'flex' : 'block';
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(el) {
-                el.classList.add('active');
-            } else {
-                const navIndex = id === 'homePage' ? 0 : id === 'livePage' ? 1 : id === 'searchPage' ? 2 : id === 'favPage' ? 3 : -1;
-                if(navIndex >= 0) document.querySelectorAll('.nav-item')[navIndex].classList.add('active');
-            }
-
-            if (id !== 'livePage' && livePlayer) {
-                try { livePlayer.pause(); } catch(e){}
-            }
-            if (id === 'favPage') renderFavoritesPage();
-
-            if (pushState && id !== 'homePage') {
-                window.history.pushState({ page: id }, '');
-            }
-        };
-
-        window.openViewAll = (cat) => {
-            window.showNav('viewAllPage');
-            window.history.pushState({ page: 'viewAll' }, '');
-            document.getElementById('viewAllTitle').innerText = cat;
-            document.getElementById('viewAllGrid').innerHTML = window.allMovies.filter(m => m.category === cat).map(m => window.renderMovieCard(m, true)).join('');
-        };
-
-        window.closePlayer = (fromUserBtn = true) => { 
-            document.getElementById('videoPage').style.display = 'none'; 
-            cleanupPlayer(false);
-            const container = document.getElementById('moviePlayerWrapper');
-            if(container) container.innerHTML = '';
-            if (fromUserBtn) {
-                window.history.back();
-            }
-        };
-
-        window.backToHome = () => {
-            window.history.back();
-        };
-    </script>
 </body>
 </html>
